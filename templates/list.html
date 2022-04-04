@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock head %}
+
+{% block body %}
+hello
+<link rel="stylesheet" href="{{ url_for('static', filename='css/list.css') }}">
+<form action="/gen" method="POST">
+    <table>
+        <tr>
+            <th>Zaznacz<br><input type="checkbox" name="selecter" value="check" id="check-selector" onclick="checkBox()"></th>
+            <th>ID</th>
+            <th>Kod</th>
+            <th>Data Dodania</th>
+            <th>Akcje</th>
+        </tr>
+        {% for ticket in tickets %}
+        <tr>
+            <td><input type="checkbox" name="tickets_Checks" value="{{ ticket.id }}" class="check-select-all"></td>
+            <td>{{ ticket.id }}</td>
+            <td>{{ ticket.code }}</td>
+            <td>{{ ticket.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+            <td><a href="#">Edytuj</a><br><a href="/delete/{{ ticket.id }}">Usuń</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <input type="submit" value="Generuj" name="generate">
+    <input type="submit" value="Usuń" name="generate">
+</form>
+<script src="{{ url_for('static', filename='js/selectAll.js') }}"></script>
+{% endblock body %} 

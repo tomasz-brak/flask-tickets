@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block body %}
+<h1>Nie znaleziono biletu z id: {{ id }}</h1>
+<p id="countDown">Przekierowanie za: 5 sekund</p>
+<script>    
+var count = 5;
+setInterval(function(){
+    count--;
+    document.getElementById('countDown').innerHTML = "Przekierowanie za: " + count.toString() + " sekund";
+    if (count == 0) {
+        window.location = '/list'; 
+    }
+},1000);</script>
+{% endblock body %} 

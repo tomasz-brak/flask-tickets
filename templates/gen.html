@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block body %}
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
+<link rel="stylesheet" href="{{ url_for('static', filename='css/gen.css') }}">
+<div id="items">
+    <div class="content">
+        {% for url in urls %}
+        <div class="img-block">
+            <img src="{{ url }}">
+        </div>
+
+        {% endfor %}
+        
+    </div>
+    <!-- <button onclick="generatePDF()">Generate PDF</button> -->
+    <script>
+        window.addEventListener("load", function () {
+
+            console.log(document.querySelector('.img-block'))
+            let width = document.querySelector('.img-block').clientWidth;
+            let height = document.querySelector('.img-block').clientHeight;
+            console.log(width);
+            console.log("repeat(auto-fit, minmax(" + width.toString() + "px, " + height.toString() + "px))");
+            document.getElementsByClassName("content")[0].style.gridTemplateColumns = "repeat(auto-fit, minmax(" + width.toString() + "px, " + height.toString() + "px))";
+        });
+    </script>
+</div>
+<!-- <script>
+    function generatePDF() {
+        // Choose the element that our invoice is rendered in.
+        const element = document.getElementById('items');
+        // Choose the element and save the PDF for our user.
+        html2pdf(element)
+    }
+</script> -->
+<button id="print-button", onclick="window.print()">Print</button>
+{% endblock body %}

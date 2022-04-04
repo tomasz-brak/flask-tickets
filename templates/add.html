@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/add.css') }}">
+
+<form action="/add" method="POST">
+    <input type="number" name="n_of_repeats" id="n_of_repeats">
+    <input type="submit" value="Dodaj">
+</form>
+
+{% endblock body %} 
