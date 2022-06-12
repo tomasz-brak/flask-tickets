@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block head %}
+
+{% endblock head %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/search.css') }}">
+<div class="form-wrapper">
+    <form action="/search/query" method="GET">
+        <input type="number" class="Input-field" name="query" id="query" placeholder="Podaj ID">
+        <input type="submit" class="Input-submit" value="Sprawdź">
+    </form>
+</div>
+{% endblock body %} 

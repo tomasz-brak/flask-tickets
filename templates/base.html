@@ -9,11 +9,42 @@
     {% endblock %}
 </head>
 <body>
-    <h2>Links:</h2>
-    <ul>
-        <li><a href="/list">Lista</a></li>
-        <li><a href="/add">Dodaj</a></li>
-    </ul>
+    <nav class="menu-container">
+        <!-- burger menu -->
+        <input type="checkbox" aria-label="Toggle menu" />
+        <span></span>
+        <span></span>
+        <span></span>
+      
+        
+        <!-- menu items -->
+        <div class="menu">
+          <ul>
+            <li>
+              <a href="/">
+                Strona Główna
+              </a>
+            </li>
+            <li>
+              <a href="/add">
+                Dodaj
+              </a>
+            </li>
+            <li>
+              <a href="/list">
+                Lista
+              </a>
+            </li>
+            <li>
+              <a href="/search">
+                Sprawdź
+              </a>
+            </li>
+          </ul>
+          <ul>
+          </ul>
+        </div>
+      </nav>
     {% block body %}
 
     {% endblock %}

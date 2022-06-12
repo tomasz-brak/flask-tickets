@@ -1,24 +1,23 @@
-import json
-import secrets
-s_file = open('settings.json', 'r')
-string = ''
-#convert list to string
-for line in s_file:
-    string += line
-
-s_file.close()
-string = string.replace('\n', '')
-string = string.replace('   ', '')
-string = string.replace(' ', '')
-#*EXTRACTION OF JSON DATA
-Qrcode = json.loads(string)["QrCode"]
-CreationDate = json.loads(string)["CreationDate"]
-EventDate = json.loads(string)["EventDate"] 
-WrittenCode = json.loads(string)["WrittenCode"]
-Image_settings = json.loads(string)["Image"]
-debug = json.loads(string)["debug"]
-
 def generate_code(data):
+    import json
+    import secrets
+    s_file = open('settings.json', 'r')
+    string = ''
+    #convert list to string
+    for line in s_file:
+        string += line
+
+    s_file.close()
+    string = string.replace('\n', '')
+    string = string.replace('   ', '')
+    string = string.replace(' ', '')
+    #*EXTRACTION OF JSON DATA
+    Qrcode = json.loads(string)["QrCode"]
+    CreationDate = json.loads(string)["CreationDate"]
+    EventDate = json.loads(string)["EventDate"] 
+    WrittenCode = json.loads(string)["WrittenCode"]
+    Image_settings = json.loads(string)["Image"]
+    debug = json.loads(string)["debug"]
     from PIL import Image
     from secrets import randbelow
 #*Generate Text code
@@ -43,6 +42,7 @@ def generate_code(data):
         qr_code_image.add_data(str(data["code"]))
         qr_code_image.make(fit=True)
         img.paste(qr_code_image.make_image(), (Qrcode["posX"], Qrcode["posY"]))
+        print(str(qr_code_image.make_image().size))
     if debug["active"] == "True":
         img.show()
 #*Generate Event Date Text:
@@ -62,7 +62,11 @@ def generate_code(data):
         draw.text((CreationDate["posX"], CreationDate["posY"]), date, font=font, fill='black')
     if debug["active"] == "True":
         img.show()
-
-    img.save('upload/' + str(data["id"]) + '.png')
-    url = 'img/'+ str(data["id"]) + '.png'
+    import os
+    if os.path.exists('upload'):
+        pass
+    else:
+        os.mkdir('upload')
+    img.save('upload/' + str(data["id"]) + '.jpg')
+    url = 'img/'+ str(data["id"]) + '.jpg'
     return url

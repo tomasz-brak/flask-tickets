@@ -4,3 +4,5 @@ main.db
 venv
 __pycache__
 .vscode
+out.pdf
+/temp/pdfs/*

@@ -1,28 +1,28 @@
 {
     "QrCode": {
         "active": "True",
-        "posX": 0,
-        "posY": 0,
+        "posX": 30,
+        "posY": 70,
         "len_max": 9999999999999999
     },
     "CreationDate": {
         "active": "True",
-        "posX": 0,
-        "posY": 0,
+        "posX": 870,
+        "posY": 170,
         "format": "%m/%d/%Y, %H:%M:%S",
         "fontSize": 20
     },
     "EventDate": {
         "active": "True",
-        "posX": 0,
-        "posY": 0,
-        "date": "<insert date>",
+        "posX": 950,
+        "posY": 270,
+        "date": "01-01-2023",
         "fontSize": 20
     },
     "WrittenCode": { 
         "active": "True",
-        "posX": 200,
-        "posY": 200,
+        "posX": 45,
+        "posY": 280,
         "fontSize": 20
     },
     "Image": {

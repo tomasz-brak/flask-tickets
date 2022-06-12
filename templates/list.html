@@ -4,12 +4,13 @@
 {% endblock head %}
 
 {% block body %}
-hello
+
 <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css') }}">
+
 <form action="/gen" method="POST">
     <table>
         <tr>
-            <th>Zaznacz<br><input type="checkbox" name="selecter" value="check" id="check-selector" onclick="checkBox()"></th>
+            <th>Zaznacz<br><input type="checkbox" name="selecter" value="check" id="check-selector" onclick="checkBox()" class="check-box"></th>
             <th>ID</th>
             <th>Kod</th>
             <th>Data Dodania</th>
@@ -17,7 +18,7 @@ hello
         </tr>
         {% for ticket in tickets %}
         <tr>
-            <td><input type="checkbox" name="tickets_Checks" value="{{ ticket.id }}" class="check-select-all"></td>
+            <td><input type="checkbox" name="tickets_Checks" value="{{ ticket.id }}" class="check-select-all check-box"></td>
             <td>{{ ticket.id }}</td>
             <td>{{ ticket.code }}</td>
             <td>{{ ticket.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
@@ -25,8 +26,10 @@ hello
         </tr>
         {% endfor %}
     </table>
-    <input type="submit" value="Generuj" name="generate">
-    <input type="submit" value="Usuń" name="generate">
+    <div class="ceneter-content">
+    <input type="submit" value="Generuj" name="generate" class="button">
+    <input type="submit" value="Usuń" name="generate" class="button">
+    </div>      
 </form>
 <script src="{{ url_for('static', filename='js/selectAll.js') }}"></script>
 {% endblock body %} 

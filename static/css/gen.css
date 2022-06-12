@@ -1,4 +1,4 @@
-.content{
+/* .content{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
 }
@@ -8,7 +8,21 @@
     page-break-inside: avoid;
 }
 img {
-    page-break-before: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
-    page-break-after: auto; /* 'always,' 'avoid,' 'left,' 'inherit,' or 'right' */
-    page-break-inside: avoid; /* or 'auto' */
+    page-break-before: auto; 
+    page-break-after: auto; 
+    page-break-inside: avoid; 
+} */
+.content{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+img {
+    page-break-before: auto; 
+    page-break-after: auto; 
+    page-break-inside: avoid; 
+}
+.img-block{
+    padding: 5px;
+    page-break-inside: avoid;
 }
