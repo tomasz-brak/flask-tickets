@@ -6,3 +6,4 @@ __pycache__
 .vscode
 out.pdf
 /temp/pdfs/*
+temp/result.pdf

@@ -28,7 +28,7 @@ def generate_code(data):
         #add text to image
         from PIL import ImageDraw, ImageFont    
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype("arial.ttf", WrittenCode["fontSize"])
+        font = ImageFont.truetype("font.ttf", WrittenCode["fontSize"])
         draw.text((WrittenCode["posX"], WrittenCode["posY"]), str(data["code"]), font=font, fill='black')
         #save image
     if debug["active"] == "True":
@@ -48,14 +48,14 @@ def generate_code(data):
 #*Generate Event Date Text:
     if EventDate["active"] == "True":
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype("arial.ttf", EventDate["fontSize"])
+        font = ImageFont.truetype("font.ttf", EventDate["fontSize"])
         draw.text((EventDate["posX"], EventDate["posY"]), EventDate["date"], font=font, fill='black')
     if debug["active"] == "True":
         img.show()
 #*Generate Creation Date Text:
     if CreationDate["active"] == "True":  
         draw = ImageDraw.Draw(img)
-        font = ImageFont.truetype("arial.ttf", CreationDate["fontSize"])\
+        font = ImageFont.truetype("font.ttf", CreationDate["fontSize"])\
         #get current date in format
         from datetime import datetime
         date = data["creation_date"].strftime(CreationDate["format"])
@@ -68,5 +68,6 @@ def generate_code(data):
     else:
         os.mkdir('upload')
     img.save('upload/' + str(data["id"]) + '.jpg')
+    print("saved image at:"+ str('upload/' + str(data["id"]) + '.jpg'))
     url = 'img/'+ str(data["id"]) + '.jpg'
     return url

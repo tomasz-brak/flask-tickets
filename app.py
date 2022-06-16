@@ -1,7 +1,15 @@
+# Check if important directories exist and create them if they don't
+import os
+if os.path.exists("upload") != True:
+    os.mkdir("upload")
+if os.path.exists("temp") != True:
+    os.mkdir("temp")
+if os.path.exists("temp/pdfs") != True:
+    os.mkdir("temp/pdfs")
+
 import codeop
 import codecs
 from datetime import datetime
-import os
 from flask import (
     Flask,
     render_template,
@@ -45,8 +53,8 @@ def search_query():
         #check if code exists in database
         ticket = Tickets.query.filter_by(code=query).first()
         if ticket:
-            return render_template("search_result.html", code=query)
-        return "No ticket found with code: " + str(query)
+            return render_template("search_result.html", code=query, found="Znaleziono Bilet ✅")
+        return render_template("search_result.html", code=query, found="NIE Znaleziono Bilet ❌")
     else:
         return "Nie znaleziono"
 
@@ -182,57 +190,59 @@ def download():
     # open a new image size of a4 paper
     a4_width = 2480
     a4_height = 3508
-    page = Image.new("RGB", (a4_height, a4_width), color="white")
     # open all images from /upload folder
     images = [img for img in os.listdir("upload")]
+    if images == []:
+        return "No images selected"
     print(images)
-    if width >= height:
-        times_fit = a4_height / height
-        times_fit = round(times_fit)
-        pages_a4 = []
-        counter = 0
-        for i in range(math.floor(len(images) / times_fit)):
-            page = Image.new("RGB", (a4_width, a4_height), color="white")
-            for j in range(times_fit):
-                page.paste(
-                    Image.open(
-                        "upload/" + images[images.index(str(counter + 1) + ".jpg")]
-                    ),
-                    (0, j * height),
-                )
-                counter = counter + 1
-            pages_a4.append(page)
+    #get pixel size of template.png
+    img = Image.open("template.png")
+    width, height = img.size
+    img.close()
+    # get number of pages
+    if width > a4_width:
+        return "Template is too wide"
+    if height > a4_height:
+        return "Template is too tall"
+    #check how may will fill vertically
+    vertical_img_per_page = math.floor(a4_height / height)
+    horizontal_img_per_page = math.floor(a4_width / width)
 
+    # images per page
+    images_per_page = vertical_img_per_page * horizontal_img_per_page
+    additonal_page_images = len(images) % images_per_page
+    normal_pages = math.floor(len(images) / images_per_page)
+
+    page = Image.new("RGB", (a4_width, a4_height), color="white")   
+    counter = 0
+    # add images to page
+    for i in range(normal_pages):
+        for j in range(horizontal_img_per_page):
+            for k in range(vertical_img_per_page):
+                img = Image.open("upload/" + images[counter])
+                counter += 1
+                page.paste(img, (j * width, k * height))
+        page.save("temp/pdfs/" + str(i) + ".pdf")
         page = Image.new("RGB", (a4_width, a4_height), color="white")
-        if len(images) % times_fit != 0:
-            for i in range(len(images) % times_fit):
-                page.paste(
-                    Image.open(
-                        "upload/" + images[images.index(str(counter + 1) + ".jpg")]
-                    ),
-                    (0, 0),
-                )
-                counter = counter + 1
-            pages_a4.append(page)
-        pdfs = []
-        for i in range(len(pages_a4)):
-            pages_a4[i].save("temp/pdfs/" + str(i) + ".pdf")
-            pdfs.append("temp/pdfs/" + str(i) + ".pdf")
-        print(pdfs)
-        from PyPDF2 import PdfFileMerger
 
-        merger = PdfFileMerger()
-        import shutil
-        for pdf in pdfs:
-            merger.append(pdf)
-        os.remove("temp/result.pdf")
-        merger.write("temp/result.pdf")
-        merger.close()
-        return send_file("temp/result.pdf", as_attachment=True)
-    else:
-        return "Image is not in correct format, image must be in landscape format"
+    # add additonal images to page
+    if additonal_page_images > 0:
+        for i in range(horizontal_img_per_page):
+            for j in range(vertical_img_per_page):
+                if counter < len(images):
+                    img = Image.open("upload/" + images[counter])
+                    counter += 1
+                    page.paste(img, (i * width, j * height))
+        page.save("temp/pdfs/last.pdf")
 
-    return "hey"
+    # merge all pdfs
+    from PyPDF2 import PdfFileMerger
+    pdfs = [pdf for pdf in os.listdir("temp/pdfs")]
+    merger = PdfFileMerger()
+    for pdf in pdfs:
+        merger.append("temp/pdfs/" + pdf)
+    merger.write("temp/result.pdf")
+    return send_file("temp/result.pdf", as_attachment=True)
 
 
 @app.route("/img/<filename>")
