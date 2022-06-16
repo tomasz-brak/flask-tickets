@@ -10,11 +10,11 @@
 <form action="/gen" method="POST">
     <table>
         <tr>
-            <th>Zaznacz<br><input type="checkbox" name="selecter" value="check" id="check-selector" onclick="checkBox()" class="check-box"></th>
+            <th>Select<br><input type="checkbox" name="selecter" value="check" id="check-selector" onclick="checkBox()" class="check-box"></th>
             <th>ID</th>
-            <th>Kod</th>
-            <th>Data Dodania</th>
-            <th>Akcje</th>
+            <th>Code</th>
+            <th>Date of adding</th>
+            <th>Actions</th>
         </tr>
         {% for ticket in tickets %}
         <tr>
@@ -22,13 +22,13 @@
             <td>{{ ticket.id }}</td>
             <td>{{ ticket.code }}</td>
             <td>{{ ticket.date_created.strftime('%Y-%m-%d %H:%M:%S') }}</td>
-            <td><a href="#">Edytuj [WIP]</a><br><a href="/delete/{{ ticket.id }}">Usuń</a></td>
+            <td><a href="#">Edit [WIP]</a><br><a href="/delete/{{ ticket.id }}">Delete</a></td>
         </tr>
         {% endfor %}
     </table>
     <div class="ceneter-content">
-    <input type="submit" value="Generuj" name="generate" class="button">
-    <input type="submit" value="Usuń" name="generate" class="button">
+    <input type="submit" value="Generate" name="generate" class="button">
+    <input type="submit" value="Delete" name="generate" class="button">
     </div>      
 </form>
 <script src="{{ url_for('static', filename='js/selectAll.js') }}"></script>

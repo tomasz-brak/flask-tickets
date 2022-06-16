@@ -53,10 +53,10 @@ def search_query():
         #check if code exists in database
         ticket = Tickets.query.filter_by(code=query).first()
         if ticket:
-            return render_template("search_result.html", code=query, found="Znaleziono Bilet ✅")
-        return render_template("search_result.html", code=query, found="NIE Znaleziono Bilet ❌")
+            return render_template("search_result.html", code=query, found="Ticket found ✅")
+        return render_template("search_result.html", code=query, found="Ticket not found ❌")
     else:
-        return "Nie znaleziono"
+        return "Not a valid query"
 
 @app.route("/list", methods=["POST", "GET"])
 def list():
@@ -89,13 +89,13 @@ def add():
                 db.session.commit()
             except IntegrityError as e:
                 return (
-                    "Błąd podczas dodawania do bazy danych {}".format(e)
-                    + '<br><br> Najprawdopodobniej taki kod już istnieje <br><br> <h1> <a href="/add">Spróbój Ponownie</a> </h1>'
+                    "Error while adding to data base {}".format(e)
+                    + '<br><br> Most likely this code already exists <br><br> <h1> <a href="/add">Try again</a> </h1>'
                 )
             except Exception as e:
                 return (
-                    "Błąd podczas dodawania do bazy danych {}".format(e)
-                    + '<br><br><h1 href="/add">Spróbój Ponownie</h1>'
+                    "Error while adding to database {}".format(e)
+                    + '<br><br><h1 href="/add">Try again</h1>'
                 )
         return redirect("/list")
     else:

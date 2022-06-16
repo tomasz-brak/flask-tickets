@@ -5,13 +5,13 @@
 {% endblock head %}
 
 {% block body %}
-<h1>Nie znaleziono biletu z id: {{ id }}</h1>
-<p id="countDown">Przekierowanie za: 5 sekund</p>
+<h1>Id not found (id: {{ id }})</h1>
+<p id="countDown">Redirect in: 5s</p>
 <script>    
 var count = 5;
 setInterval(function(){
     count--;
-    document.getElementById('countDown').innerHTML = "Przekierowanie za: " + count.toString() + " sekund";
+    document.getElementById('countDown').innerHTML = "Redirect in: " + count.toString() + "s";
     if (count == 0) {
         window.location = '/list'; 
     }
