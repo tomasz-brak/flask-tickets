@@ -1,5 +1,6 @@
 # Check if important directories exist and create them if they don't
 import os
+
 if os.path.exists("upload") != True:
     os.mkdir("upload")
 if os.path.exists("temp") != True:
@@ -46,17 +47,23 @@ def index():
 def search():
     return render_template("search.html")
 
+
 @app.route("/search/query", methods=["GET"])
 def search_query():
     query = request.args.get("query")
     if query:
-        #check if code exists in database
+        # check if code exists in database
         ticket = Tickets.query.filter_by(code=query).first()
         if ticket:
-            return render_template("search_result.html", code=query, found="Ticket found ✅")
-        return render_template("search_result.html", code=query, found="Ticket not found ❌")
+            return render_template(
+                "search_result.html", code=query, found="Ticket found ✅"
+            )
+        return render_template(
+            "search_result.html", code=query, found="Ticket not found ❌"
+        )
     else:
         return "Not a valid query"
+
 
 @app.route("/list", methods=["POST", "GET"])
 def list():
@@ -180,6 +187,7 @@ def gen():
 @app.route("/download")
 def download():
     import shutil
+
     try:
         shutil.rmtree("temp")
         print("deleted $temp$ folder")
@@ -189,8 +197,6 @@ def download():
         os.mkdir("temp")
     if os.path.exists("temp/pdfs") != True:
         os.mkdir("temp/pdfs")
-
-
 
     from PIL import Image
     import math
@@ -208,7 +214,7 @@ def download():
     if images == []:
         return "No images selected"
     print(images)
-    #get pixel size of template.png
+    # get pixel size of template.png
     img = Image.open("template.png")
     width, height = img.size
     img.close()
@@ -217,7 +223,7 @@ def download():
         return "Template is too wide"
     if height > a4_height:
         return "Template is too tall"
-    #check how may will fill vertically
+    # check how may will fill vertically
     vertical_img_per_page = math.floor(a4_height / height)
     horizontal_img_per_page = math.floor(a4_width / width)
 
@@ -226,7 +232,7 @@ def download():
     additonal_page_images = len(images) % images_per_page
     normal_pages = math.floor(len(images) / images_per_page)
 
-    page = Image.new("RGB", (a4_width, a4_height), color="white")   
+    page = Image.new("RGB", (a4_width, a4_height), color="white")
     counter = 0
     # add images to page
     for i in range(normal_pages):
@@ -250,6 +256,7 @@ def download():
 
     # merge all pdfs
     from PyPDF2 import PdfFileMerger
+
     pdfs = [pdf for pdf in os.listdir("temp/pdfs")]
     merger = PdfFileMerger()
     for pdf in pdfs:
@@ -266,12 +273,15 @@ def img(filename):
         return render_template("error-not-found.html", id=filename)
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
+
 @app.route("/api/<id>")
 def api(id):
     ticket = Tickets.query.filter_by(code=id).first()
     if ticket:
-        return 'found'
+        return "found"
     else:
         return "not found"
+
+
 if __name__ == "__main__":
     app.run(debug=True, port=80, host="0.0.0.0")
