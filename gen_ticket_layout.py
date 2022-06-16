@@ -29,7 +29,7 @@ def generate_code(data):
         from PIL import ImageDraw, ImageFont    
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("font.ttf", WrittenCode["fontSize"])
-        draw.text((WrittenCode["posX"], WrittenCode["posY"]), str(data["code"]), font=font, fill='black')
+        draw.text((WrittenCode["posX"], WrittenCode["posY"]), str(data["code"]), font=font, fill=WrittenCode["color"])
         #save image
     if debug["active"] == "True":
         img.show()
@@ -49,7 +49,7 @@ def generate_code(data):
     if EventDate["active"] == "True":
         draw = ImageDraw.Draw(img)
         font = ImageFont.truetype("font.ttf", EventDate["fontSize"])
-        draw.text((EventDate["posX"], EventDate["posY"]), EventDate["date"], font=font, fill='black')
+        draw.text((EventDate["posX"], EventDate["posY"]), EventDate["date"], font=font, fill=EventDate["color"])
     if debug["active"] == "True":
         img.show()
 #*Generate Creation Date Text:
@@ -59,7 +59,7 @@ def generate_code(data):
         #get current date in format
         from datetime import datetime
         date = data["creation_date"].strftime(CreationDate["format"])
-        draw.text((CreationDate["posX"], CreationDate["posY"]), date, font=font, fill='black')
+        draw.text((CreationDate["posX"], CreationDate["posY"]), date, font=font, fill=CreationDate["color"])
     if debug["active"] == "True":
         img.show()
     import os

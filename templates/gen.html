@@ -7,6 +7,9 @@
 {% block body %}
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script> -->
 <link rel="stylesheet" href="{{ url_for('static', filename='css/gen.css') }}">
+<form action="/download">
+    <input type="submit" value="Download" />
+</form>
 <div id="items">
     <div class="content">
         {% for url in urls %}
@@ -38,7 +41,4 @@
         html2pdf(element)
     }
 </script> -->
-<form action="/download">
-    <input type="submit" value="Download" />
-</form>
 {% endblock body %}

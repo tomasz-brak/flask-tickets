@@ -179,6 +179,19 @@ def gen():
 
 @app.route("/download")
 def download():
+    import shutil
+    try:
+        shutil.rmtree("temp")
+        print("deleted $temp$ folder")
+    except FileNotFoundError:
+        print("$temp$ folder not found")
+    if os.path.exists("temp") != True:
+        os.mkdir("temp")
+    if os.path.exists("temp/pdfs") != True:
+        os.mkdir("temp/pdfs")
+
+
+
     from PIL import Image
     import math
 
@@ -253,6 +266,12 @@ def img(filename):
         return render_template("error-not-found.html", id=filename)
     return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
-
+@app.route("/api/<id>")
+def api(id):
+    ticket = Tickets.query.filter_by(code=id).first()
+    if ticket:
+        return 'found'
+    else:
+        return "not found"
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=80, host="0.0.0.0")

@@ -10,20 +10,23 @@
         "posX": 870,
         "posY": 170,
         "format": "%m/%d/%Y, %H:%M:%S",
-        "fontSize": 20
+        "fontSize": 20,
+        "color": "black"
     },
     "EventDate": {
         "active": "True",
         "posX": 950,
         "posY": 270,
         "date": "01-01-2023",
-        "fontSize": 20
+        "fontSize": 20,
+        "color": "black"
     },
     "WrittenCode": { 
         "active": "True",
         "posX": 45,
         "posY": 280,
-        "fontSize": 20
+        "fontSize": 20,
+        "color": "white"
     },
     "Image": {
         "template": "template.png"
